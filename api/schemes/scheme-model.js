@@ -18,8 +18,9 @@ function find() { // EXERCISE A
     Return from this function the resulting dataset.
   */
 
-  return db('sc')
+  return db('schemes as sc')
   .leftJoin('steps as st', 'sc.scheme_id', 'st.scheme_id')
+  .select('sc.*')
   .groupBy('sc.scheme_id')
   .orderBy('sc.scheme_id', 'asc')
   .count('st.step_id as number_of_steps')
@@ -29,9 +30,9 @@ function find() { // EXERCISE A
 
 function findById(scheme_id) { 
   
-  return db('sc')
+  return db('schemes as sc')
   .leftJoin('steps as st', 'sc.scheme_id', 'st.scheme_id')
-  .select('sc.scheme_name', 'st')
+  .select('sc.scheme_name', 'st.*')
   .orderBy('st.step_number', 'asc')
   .where({ 'sc.scheme_id': scheme_id})
   
@@ -107,7 +108,7 @@ function findById(scheme_id) {
 
 function findSteps(scheme_id) {
   
-  return db('st')
+  return db('steps as st')
   // EXERCISE C
   /*
     1C- Build a query in Knex that returns the following data.
